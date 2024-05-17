@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,9 @@ public class AddressService {
         return optionalAddr.map(addr -> mapper.map(addr, AddressResponse.class)).orElse(null);
          */
         Optional<Address> optionalAddress = addrRepo.findById(id);
+        Address address = optionalAddress.get();
 
-        return toAddressResponse.apply(optionalAddress.get());
+        return toAddressResponse.apply(address, address.getUser());
     }
 
     public List<AddressResponse> getAllAddress() {
@@ -38,28 +40,29 @@ public class AddressService {
         //return optionalAddress.stream().map(
         //                (addr) -> mapper.map(addr, AddressResponse.class))
         //        .collect(Collectors.toList());
-        return  addresses.stream().map(addr -> toAddressResponse.apply(addr)).collect(Collectors.toList());
+        return  addresses.stream().map(addr -> toAddressResponse.apply(addr,addr.getUser())).collect(Collectors.toList());
     }
 
     public AddressResponse addAddress(Address newAddr) {
         newAddr.setId(0);
         Address address = addrRepo.save(newAddr);
 
-        AddressResponse addrResponse = toAddressResponse.apply(address);
+        AddressResponse addrResponse = toAddressResponse.apply(address, address.getUser());
         return addrResponse;
     }
 
     public List<AddressResponse> findAllByUser(User user) {
         List<Address> address = addrRepo.findByUser(user);
 
-        return address.stream().map((addr) -> toAddressResponse.apply(addr)).collect(Collectors.toList());
+        //return address.stream().map((addr) -> toAddressResponse.apply(addr)).collect(Collectors.toList());
+        return address.stream().map((addr) -> toAddressResponse.apply(addr, user)).collect(Collectors.toList());
     }
 
-    public static Function<Address, AddressResponse> toAddressResponse= address -> {
+    public static BiFunction<Address, User, AddressResponse> toAddressResponse = (address, user) -> {
         AddressResponse addressResponse = new AddressResponse();
         addressResponse.setId(address.getId());
         addressResponse.setCity(address.getCity());
-        addressResponse.setUserID(address.getUser().getId());
+        addressResponse.setUserID(user.getId());
         addressResponse.setStreet(address.getStreet());
         //addressResponse.setUser(address.getUser());
         return addressResponse;

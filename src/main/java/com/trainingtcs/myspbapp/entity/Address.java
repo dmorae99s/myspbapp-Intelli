@@ -16,7 +16,6 @@ public class Address {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable = false)
-    //@JsonBackReference
     private User user;
 
     @Id
@@ -29,8 +28,5 @@ public class Address {
 
     @Column(name = "city")
     private String city;
-
-
-
 
 }

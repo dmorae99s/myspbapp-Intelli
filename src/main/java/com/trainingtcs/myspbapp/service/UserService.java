@@ -53,7 +53,7 @@ public class UserService {
         userResponse.setName(user.getUserName());
         //userResponse.setAddresses(user.getAddresses());
         List<AddressResponse> addressResponse =
-                user.getAddresses().stream().map(usr->AddressService.toAddressResponse.apply(usr)).collect(Collectors.toList());
+                user.getAddresses().stream().map(adrr->AddressService.toAddressResponse.apply(adrr, user )).collect(Collectors.toList());
         userResponse.setAddresses(addressResponse);
 
 
