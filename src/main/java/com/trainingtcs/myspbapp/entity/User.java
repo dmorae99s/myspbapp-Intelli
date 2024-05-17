@@ -1,45 +1,27 @@
 package com.trainingtcs.myspbapp.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.List;
+@Data
 @Entity
 @Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "user_id")
 	private int id;
-	
+
 	@Column(name = "name")
-	private String name;
+	private String userName;
 	
 	@Column(name = "role")
 	private String role;
 
-	public int getId() {
-		return id;
-	}
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<Address> addresses;
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-	
-	
-	
 }

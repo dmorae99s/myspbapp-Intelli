@@ -6,6 +6,4 @@ import com.trainingtcs.myspbapp.entity.User;
 
 //
 public interface UserRepository extends JpaRepository<User, Integer>{
-	
-	
 }
