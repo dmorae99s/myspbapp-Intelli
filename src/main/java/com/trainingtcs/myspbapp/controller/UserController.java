@@ -1,14 +1,11 @@
 package com.trainingtcs.myspbapp.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 import com.trainingtcs.myspbapp.entity.User;
@@ -16,10 +13,10 @@ import com.trainingtcs.myspbapp.entity.User;
 import com.trainingtcs.myspbapp.response.UserResponse;
 import com.trainingtcs.myspbapp.service.UserService;
 
+@AllArgsConstructor
 @RestController
 public class UserController {
-	
-	@Autowired
+
 	private UserService userService;
 	
 	//one user by ID
@@ -46,26 +43,31 @@ public class UserController {
 	//update an existing user
 	@PostMapping("/users")
 	private ResponseEntity<UserResponse> newUser(@RequestBody User newUser){
-		System.out.println("User recibed in controller " + newUser);
 		UserResponse user = userService.addUser(newUser);
+
+
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 		
 	}
 	
 	//update an existing user
-	@PutMapping("/users")
+	@PutMapping("/users/{Id}")
 	private ResponseEntity<UserResponse> updateUser(@RequestBody User uptUser){
-		System.out.println("User recibed in controller " + uptUser);
+
 		UserResponse user = userService.updateUser(uptUser);
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 		
 	}
-	
-	
-	
-	//update an existing user
-	
-	
-	//delete an existing user
+
+	@DeleteMapping("/users/{Id}")
+	private ResponseEntity<UserResponse> updateUser(@PathVariable("Id") int id){
+
+		UserResponse user = userService.deleteUser(id);
+
+
+		return ResponseEntity.status(HttpStatus.OK).body(user);
+
+	}
+
 
 }
