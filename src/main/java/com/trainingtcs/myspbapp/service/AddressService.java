@@ -35,11 +35,6 @@ public class AddressService {
 
     public List<AddressResponse> getAllAddress() {
         List<Address> addresses = addrRepo.findAll();
-
-        //Optional<List> optionalAddress = addrRepo.findAll());
-        //return optionalAddress.stream().map(
-        //                (addr) -> mapper.map(addr, AddressResponse.class))
-        //        .collect(Collectors.toList());
         return  addresses.stream().map(addr -> toAddressResponse.apply(addr,addr.getUser())).collect(Collectors.toList());
     }
 
@@ -53,8 +48,6 @@ public class AddressService {
 
     public List<AddressResponse> findAllByUser(User user) {
         List<Address> address = addrRepo.findByUser(user);
-
-        //return address.stream().map((addr) -> toAddressResponse.apply(addr)).collect(Collectors.toList());
         return address.stream().map((addr) -> toAddressResponse.apply(addr, user)).collect(Collectors.toList());
     }
 
@@ -64,7 +57,7 @@ public class AddressService {
         addressResponse.setCity(address.getCity());
         addressResponse.setUserID(user.getId());
         addressResponse.setStreet(address.getStreet());
-        //addressResponse.setUser(address.getUser());
+
         return addressResponse;
     };
 

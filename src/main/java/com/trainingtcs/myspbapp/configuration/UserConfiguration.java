@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 public class UserConfiguration {
-
 	@Bean
 	public ModelMapper modelMapperBean(){
 		return new ModelMapper();
-		
 	}
 }
