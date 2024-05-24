@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,38 @@ public class EmployeeService {
 
     }
 
+    //
+    public Map<String, EmployeeResponse> getMapEmployees() {
+
+        class NameAndEmployee{
+            String name;
+            EmployeeResponse employeeResponse;
+
+            public String getName() {
+                return name;
+            }
+            public EmployeeResponse getEmployeeResponse() {
+                return employeeResponse;
+            }
+
+            public NameAndEmployee(EmployeeResponse employeeResponse) {
+                this.name = employeeResponse.getEmployeeName();
+                this.employeeResponse = employeeResponse;
+
+            }
+        }
+
+        List<Employee> employees = empRepo.findAll();
+        Map<String, EmployeeResponse> mapEmp =
+                employees.stream().map(emp->new NameAndEmployee(toEmployeeResponse.apply(emp))).
+                        collect(Collectors.toMap(
+                        NameAndEmployee::getName,NameAndEmployee::getEmployeeResponse
+            ));
+
+        return mapEmp;
+
+    }
+
     public static Function<Employee, EmployeeResponse> toEmployeeResponse= employee -> {
         EmployeeResponse employeeResponse = new EmployeeResponse();
         employeeResponse.setId(employee.getId());
@@ -45,5 +79,6 @@ public class EmployeeService {
 
         return employeeResponse;
     };
+
 
 }

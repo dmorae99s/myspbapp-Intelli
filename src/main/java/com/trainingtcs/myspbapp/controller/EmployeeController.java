@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -27,6 +28,11 @@ public class EmployeeController {
         return "Hi, try URL http://localhost:8080/employees/all or http://localhost:8080/employees/{id} ";
     }
 
+    @GetMapping("/employeesmap")
+    private ResponseEntity<Map<String, EmployeeResponse>> getEmployeesMap(){
+        Map<String, EmployeeResponse> empMap = employeeService.getMapEmployees();
+        return ResponseEntity.status(HttpStatus.OK).body(empMap);
+    }
 
     @GetMapping("/employees/all")
     private ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
