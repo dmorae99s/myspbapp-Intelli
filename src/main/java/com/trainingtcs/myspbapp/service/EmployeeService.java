@@ -39,30 +39,10 @@ public class EmployeeService {
     //
     public Map<String, EmployeeResponse> getMapEmployees() {
 
-        class NameAndEmployee{
-            String name;
-            EmployeeResponse employeeResponse;
-
-            public String getName() {
-                return name;
-            }
-            public EmployeeResponse getEmployeeResponse() {
-                return employeeResponse;
-            }
-
-            public NameAndEmployee(EmployeeResponse employeeResponse) {
-                this.name = employeeResponse.getEmployeeName();
-                this.employeeResponse = employeeResponse;
-
-            }
-        }
-
         List<Employee> employees = empRepo.findAll();
         Map<String, EmployeeResponse> mapEmp =
-                employees.stream().map(emp->new NameAndEmployee(toEmployeeResponse.apply(emp))).
-                        collect(Collectors.toMap(
-                        NameAndEmployee::getName,NameAndEmployee::getEmployeeResponse
-            ));
+                employees.stream().map(emp->toEmployeeResponse.apply(emp)).collect(Collectors.
+                        toMap(EmployeeResponse::getEmployeeName,a->a));
 
         return mapEmp;
 
