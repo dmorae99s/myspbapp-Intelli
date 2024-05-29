@@ -37,12 +37,13 @@ public class EmployeeService {
     }
 
     //
-    public Map<String, EmployeeResponse> getMapEmployees() {
+    public Map<String, List<Employee>> getMapEmployees() {
 
         List<Employee> employees = empRepo.findAll();
-        Map<String, EmployeeResponse> mapEmp =
-                employees.stream().map(emp->toEmployeeResponse.apply(emp)).collect(Collectors.
-                        toMap(EmployeeResponse::getEmployeeName,a->a));
+        //arraylist department and all the employees for that department
+        Map<String, List<Employee>> mapEmp =
+                employees.stream().collect(
+                        Collectors.groupingBy(emp->emp.getDepartment().getDepartmentName(), Collectors.toList()));
 
         return mapEmp;
 

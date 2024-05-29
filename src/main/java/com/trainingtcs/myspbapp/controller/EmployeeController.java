@@ -1,5 +1,6 @@
 package com.trainingtcs.myspbapp.controller;
 
+import com.trainingtcs.myspbapp.entity.Employee;
 import com.trainingtcs.myspbapp.response.EmployeeResponse;
 import com.trainingtcs.myspbapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -29,8 +30,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employeesmap")
-    private ResponseEntity<Map<String, EmployeeResponse>> getEmployeesMap(){
-        Map<String, EmployeeResponse> empMap = employeeService.getMapEmployees();
+    private ResponseEntity<Map<String, List<Employee>>> getEmployeesMap(){
+        Map<String, List<Employee>> empMap = employeeService.getMapEmployees();
         return ResponseEntity.status(HttpStatus.OK).body(empMap);
     }
 
