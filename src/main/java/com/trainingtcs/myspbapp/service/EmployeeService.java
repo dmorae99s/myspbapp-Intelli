@@ -41,7 +41,7 @@ public class EmployeeService {
 
         List<Employee> employees = empRepo.findAll();
         //arraylist department and all the employees for that department
-        Map<String, List<Employee>> mapEmp =
+        Map<String, List<Employee>> mapEmp  =
                 employees.stream().collect(
                         Collectors.groupingBy(emp->emp.getDepartment().getDepartmentName(), Collectors.toList()));
 
