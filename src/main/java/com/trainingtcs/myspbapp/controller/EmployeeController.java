@@ -2,11 +2,14 @@ package com.trainingtcs.myspbapp.controller;
 
 import com.trainingtcs.myspbapp.entity.Employee;
 import com.trainingtcs.myspbapp.response.EmployeeResponse;
+import com.trainingtcs.myspbapp.response.HRPaymentsResponse;
 import com.trainingtcs.myspbapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,15 @@ public class EmployeeController {
         List<EmployeeResponse> employees = employeeService.getAllEmployees();
         return ResponseEntity.status(HttpStatus.OK).body(employees);
     }
+
+    @GetMapping("/employees/payments/{empId}")
+    private ResponseEntity<List<HRPaymentsResponse>> getEmployeePayments(@PathVariable("empId") int empId){
+        List<HRPaymentsResponse> hrPaymentsResponseList = employeeService.getEmployeePaymentsByEmpId(empId);
+        return ResponseEntity.status(HttpStatus.OK).body(hrPaymentsResponseList);
+    }
+
+
+
     /*
     //update an existing user
     @PostMapping("/employees")

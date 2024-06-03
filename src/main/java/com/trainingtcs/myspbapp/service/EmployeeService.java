@@ -6,9 +6,12 @@ import com.trainingtcs.myspbapp.repository.DepartmentRepository;
 import com.trainingtcs.myspbapp.repository.EmployeeRepository;
 import com.trainingtcs.myspbapp.response.DepartmentResponse;
 import com.trainingtcs.myspbapp.response.EmployeeResponse;
+import com.trainingtcs.myspbapp.response.HRPaymentsResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,15 @@ public class EmployeeService {
     private final ModelMapper mapper;
     private final DepartmentService departmentService;
     private final DepartmentRepository departmentRepo;
+
+
+    private WebClient webClient;
+
+    public List<HRPaymentsResponse> getEmployeePaymentsByEmpId(int empId) {
+
+        return webClient.get().uri("/payments/"  + empId).retrieve().bodyToFlux(HRPaymentsResponse.class).collectList().block();
+
+    }
 
     //TODO: make a correct use of optional
     public EmployeeResponse getEmployeeById(int id) {
