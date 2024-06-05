@@ -10,6 +10,8 @@ import com.trainingtcs.myspbapp.response.HRPaymentsResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -27,12 +29,21 @@ public class EmployeeService {
     private final DepartmentService departmentService;
     private final DepartmentRepository departmentRepo;
 
-
-    private WebClient webClient;
+    private final WebClient webClient;
+    private final DiscoveryClient discoveryClient;
 
     public List<HRPaymentsResponse> getEmployeePaymentsByEmpId(int empId) {
 
-        return webClient.get().uri("/payments/"  + empId).retrieve().bodyToFlux(HRPaymentsResponse.class).collectList().block();
+        List<ServiceInstance> eurekaServices = discoveryClient.getInstances("hr-services");
+        if (eurekaServices == null || eurekaServices.isEmpty()) {
+            return null;
+        }
+
+        //return webClient.get().uri("/payments/"  + empId).retrieve().bodyToFlux(HRPaymentsResponse.class).collectList().block();
+
+        String strUrl = eurekaServices.get(0).getUri().toString() +"/payments/" + empId;
+        return webClient.get().uri(strUrl ).retrieve().bodyToFlux(HRPaymentsResponse.class).collectList().block();
+
 
     }
 
