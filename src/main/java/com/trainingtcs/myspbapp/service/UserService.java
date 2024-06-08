@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import com.trainingtcs.myspbapp.entity.Address;
 import com.trainingtcs.myspbapp.repository.AddressRepository;
 import com.trainingtcs.myspbapp.response.AddressResponse;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 
@@ -23,6 +22,7 @@ import com.trainingtcs.myspbapp.repository.UserRepository;
 import com.trainingtcs.myspbapp.response.UserResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 //when calling a user it should show the multiple addresses and the department
 
@@ -62,7 +62,7 @@ public class UserService {
         return userResponse;
     };
 
-
+    @Transactional
     public UserResponse addUser(User newUser) {
     	//TODO: make it transactional
     	newUser.setId(0);

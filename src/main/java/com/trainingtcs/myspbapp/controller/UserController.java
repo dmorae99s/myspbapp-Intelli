@@ -40,7 +40,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(users);
 	}
 	
-	//update an existing user
+	//creating a user
 	@PostMapping("/users")
 	private ResponseEntity<UserResponse> newUser(@RequestBody User newUser){
 		UserResponse user = userService.addUser(newUser);

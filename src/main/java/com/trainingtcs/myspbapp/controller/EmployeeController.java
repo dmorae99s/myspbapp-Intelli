@@ -4,6 +4,8 @@ import com.trainingtcs.myspbapp.entity.Employee;
 import com.trainingtcs.myspbapp.response.EmployeeResponse;
 import com.trainingtcs.myspbapp.response.HRPaymentsResponse;
 import com.trainingtcs.myspbapp.service.EmployeeService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
+
 
 @AllArgsConstructor
 @RestController
@@ -52,34 +55,5 @@ public class EmployeeController {
 
 
 
-    /*
-    //update an existing user
-    @PostMapping("/employees")
-    private ResponseEntity<UserResponse> newUser(@RequestBody User newUser){
-        UserResponse user = userService.addUser(newUser);
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-
-    }
-
-    //update an existing user
-    @PutMapping("/users/{Id}")
-    private ResponseEntity<UserResponse> updateUser(@RequestBody User uptUser){
-
-        UserResponse user = userService.updateUser(uptUser);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-
-    }
-
-    @DeleteMapping("/users/{Id}")
-    private ResponseEntity<UserResponse> updateUser(@PathVariable("Id") int id){
-
-        UserResponse user = userService.deleteUser(id);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-
-    }
-     */
 }
